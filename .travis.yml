@@ -5,18 +5,15 @@ compiler:
 
 before_install:
   - echo $LANG
-  - echo $LC_ALL
-  - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get update && sudo apt-get install -y llvm-3.4 llvm-3.4-dev; fi
-  - rvm use $RVM --install --binary --fuzzy
-  - gem update --system
-  - gem --version
 
 before_script:
+  - echo $LC_ALL
+  - cd CI_1
 
-script: rake ci
+script:
+  - g++ Source.cpp -o hello
 
 after_success:
-  - if [ $TRAVIS_BRANCH == $TRAVIS_TAG ]; then rake deploy; fi
 
 branches:
   only:
@@ -26,7 +23,6 @@ notifications:
   email: false
 
 env:
-  - RVM=2.0.0 LANG="en_US.UTF-8"
 
 os:
   - linux
